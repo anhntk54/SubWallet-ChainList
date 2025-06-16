@@ -354,8 +354,8 @@ function tweakCjsPaths (buildDir) {
           .readFileSync(thisPath, 'utf8')
           .replace(
             // require("@subwallet/$1/$2")
-            /require\("@subwallet\/([a-z-]*)\/(.*)"\)/g,
-            'require("@subwallet/$1/cjs/$2")'
+            /require\("@anhnt\/([a-z-]*)\/(.*)"\)/g,
+            'require("@anhnt/$1/cjs/$2")'
           )
       );
     });

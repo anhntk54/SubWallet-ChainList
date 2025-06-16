@@ -12,11 +12,11 @@ import path from 'path';
 import pluginCleanup from 'rollup-plugin-cleanup';
 
 function sanitizePkg(pkg) {
-  return pkg.replace('@subwallet/', '');
+  return pkg.replace('@anhnt/', '');
 }
 
 function createName(input) {
-  return `subwallet-${sanitizePkg(input)}`
+  return `anhnt-${sanitizePkg(input)}`
     .toLowerCase()
     .replace(/[^a-zA-Z0-9]+(.)/g, (_, c) => c.toUpperCase());
 }
@@ -48,13 +48,13 @@ export function createBundle({entries = {}, external, globals = {}, index, injec
 }
 
 const pkgs = [
-  '@subwallet/chain-list',
+  '@anhnt/chain-list',
 ];
 
 const external = [...pkgs];
 
 const entries = ['chain-list'].reduce((all, p) => ({
-  ...all, [`@subwallet/${p}`]: path.resolve(process.cwd(), `packages/${p}/build`)
+  ...all, [`@anhnt/${p}`]: path.resolve(process.cwd(), `packages/${p}/build`)
 }), {});
 
 const overrides = {};

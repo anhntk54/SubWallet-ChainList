@@ -3,7 +3,7 @@
   "bugs": "https://github.com/anhntk54/SubWallet-ChainList/issues",
   "homepage": "https://github.com/anhntk54/SubWallet-ChainList#readme",
   "license": "Apache-2.0",
-  "name": "subwallet-chain-list-anhntk54",
+  "name": "subwallet-chain-list-anhntk541",
   "packageManager": "yarn@3.2.0",
   "repository": {
     "type": "git",
@@ -51,7 +51,7 @@
     "patch:latest": "yarn migration-patch-logo",
     "postinstall": "polkadot-dev-yarn-only && patch-package",
     "publish:beta": "yarn build:beta && cd ./packages/chain-list/build && npm publish --target --tag beta",
-    "publish:latest": "yarn build:latest && cd ./packages/chain-list/build && npm publish --target --tag latest",
+    "publish:latest": "cd ./packages/chain-list/build && npm publish --target --tag latest",
     "strapi-fetch": "yarn strapi-fetch-chains && yarn strapi-fetch-chain-assets && yarn strapi-multi-chain-assets",
     "test": "NODE_OPTIONS=--experimental-vm-modules polkadot-dev-run-test --coverage --forceExit --runInBand --testPathIgnorePatterns e2e",
     "test:one": "NODE_OPTIONS=--experimental-vm-modules polkadot-dev-run-test --detectOpenHandles --forceExit"
