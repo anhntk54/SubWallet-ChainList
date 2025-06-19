@@ -3,7 +3,7 @@
   "bugs": "https://github.com/anhntk54/SubWallet-ChainList/issues",
   "homepage": "https://github.com/anhntk54/SubWallet-ChainList#readme",
   "license": "Apache-2.0",
-  "name": "subwallet-chain-list-anhntk54",
+  "name": "@anhtrieunhu/chain-list",
   "packageManager": "yarn@3.2.0",
   "repository": {
     "type": "git",
