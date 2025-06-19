@@ -134,6 +134,7 @@ jobs:
 
       - name: Create tag
         id: create_tag
+        if: env.BUILD_CONDITION == 'true'
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
@@ -163,7 +164,7 @@ jobs:
 
       - name: Notify to Discord
         uses: sarisia/actions-status-discord@v1
-        if: always()
+        if: always() && env.BUILD_CONDITION == 'true'
         with:
           webhook: ${{ secrets.DISCORD_WEBHOOK }}
           status: ${{ job.status }}
