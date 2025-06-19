@@ -95,8 +95,6 @@ jobs:
           yarn install
           yarn build
           cd packages/chain-list/build
-          cat package.json
-          echo "Updating package.json with new version: ${{ env.NEW_VERSION }}"
           NEW_NAME="@anhtrieunhu/chain-list"
           NEW_VERSION="${{ env.NEW_VERSION }}"
           CURRENT_CONTENT=$(cat package.json)
@@ -150,10 +148,6 @@ jobs:
           url="${{ github.event.pull_request._links.html.href}}/commits/${{github.event.after}}"
           MSG=$(git log --format=%B -n 1 ${{ github.event.after }} | grep -v '^#')
           COMMENT="Release for [$MSG]($url)\nNpm Version: [${{ env.NEW_VERSION }}](https://www.npmjs.com/package/${{env.PACKAGE_NAME}}/v/${{ env.NEW_VERSION }})"
-          echo "Formatted comment: $COMMENT"
-
-          # In ra để debug
-          echo "Comment to post: $COMMENT"
 
           # Gửi bình luận tới PR
           curl -X POST \
