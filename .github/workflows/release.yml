@@ -154,7 +154,7 @@ jobs:
           # Chuẩn bị nội dung bình luận
           url="${{ github.event.pull_request._links.html.href}}/commits/${{github.event.after}}"
           MSG=$(git log --format=%B -n 1 ${{ github.event.after }} | grep -v '^#')
-          COMMENT="Release for [$MSG]($url)\nNpm Version: [${{ env.NEW_VERSION }}](https://www.npmjs.com/package/${{env.PACKAGE_NAME}}v/${{ env.NEW_VERSION }})"
+          COMMENT="Release for [$MSG]($url)\nNpm Version: [${{ env.NEW_VERSION }}](https://www.npmjs.com/package/${{env.PACKAGE_NAME}}/v/${{ env.NEW_VERSION }})"
           echo "Formatted comment: $COMMENT"
 
           # In ra để debug
