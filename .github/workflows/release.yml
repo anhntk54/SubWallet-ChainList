@@ -32,7 +32,6 @@ jobs:
           TIME_STRING=$(TZ="Asia/Ho_Chi_Minh" date +%Y%m%d-%H%M%S)
           echo "TIME_STRING=$TIME_STRING" >> $GITHUB_ENV
           MSG=$(git log --format=%B -n 1 ${{ github.event.after }} | grep -v '^#')
-          echo "MSG=$MSG"
           # Kiểm tra nếu MSG chứa [Build]
           if echo "$MSG" | grep -q "\[Build\]"; then
             echo "BUILD_CONDITION=true" >> $GITHUB_ENV
@@ -138,7 +137,7 @@ jobs:
         run: echo "VERSION=$(node -p -e "require('./package.json').version")" >> $GITHUB_ENV
 
       - name: Create tag
-        if: env.BRANCH == 'main' && env.BUILD_CONDITION == 'true'
+        if: (env.BRANCH == 'main' || env.BRANCH == 'dev') && env.BUILD_CONDITION == 'true'
         id: create_tag
         run: |
           git config --global user.name 'github-actions[bot]'
