@@ -133,7 +133,6 @@ jobs:
 #          wranglerVersion: '3'
 
       - name: Create tag
-        if: (env.BRANCH == 'main' || env.BRANCH == 'dev') && env.BUILD_CONDITION == 'true'
         id: create_tag
         run: |
           git config --global user.name 'github-actions[bot]'
