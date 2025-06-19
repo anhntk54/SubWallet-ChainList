@@ -85,7 +85,7 @@ const main = async () => {
           assetType: asset.assetType,
           metadata: asset.metadata,
           multiChainAsset: asset.multiChainAsset || null,
-          hasValue: asset.hasValue,
+          hasValue: asset.hasValue || false,
           icon: iconURL
         }
     }));
