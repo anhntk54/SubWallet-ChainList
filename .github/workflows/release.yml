@@ -10,7 +10,7 @@ on:
 
 jobs:
   master:
-    if: "startsWith(github.event.head_commit.message, '[Build]')"
+    if: "startsWith(github.event.head_commit.message, '[Build]') || github.event_name == 'pull_request'"
     runs-on: ubuntu-22.04
     name: Build and publish
     steps:
