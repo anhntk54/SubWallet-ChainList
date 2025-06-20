@@ -84,7 +84,6 @@ jobs:
 
       - name: Install dependencies
         if: env.BUILD_CONDITION == 'true'
-        id: install_and_build
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           STRAPI_TOKEN: ${{ secrets.STRAPI_TOKEN }}
@@ -95,7 +94,7 @@ jobs:
 
       - name: Build package to NPM
         if: env.BUILD_CONDITION == 'true'
-        id: install_and_build
+        id: step_build
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           STRAPI_TOKEN: ${{ secrets.STRAPI_TOKEN }}
@@ -147,7 +146,7 @@ jobs:
           git push origin "v${{ env.NEW_VERSION }}"
 
       - name: Post comment on PR
-        if: env.PR_NUMBER > 0 && steps.install_and_build.outcome == 'success' && env.BUILD_CONDITION == 'true'
+        if: env.PR_NUMBER > 0 && steps.step_build.outcome == 'success' && env.BUILD_CONDITION == 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
