@@ -104,7 +104,7 @@ const main = async () => {
             srcAsset: item.slug,
             destAsset: destAsset.slug,
             srcChain: srcAsset.originChain,
-            destChain: destAsset.originChain,
+            destChain: destAsset.originChain + '1',
             path: ref.type,
             metadata: ref.metadata ?? undefined
           }
