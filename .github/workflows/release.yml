@@ -6,12 +6,11 @@ on:
       - dev
   pull_request:
     branches:
-      - main
       - dev
 
 jobs:
   master:
-    if: "startsWith(github.event.head_commit.message, '[Build]') || github.event_name == 'pull_request'"
+    if: "startsWith(github.event.head_commit.message, '[Build]')"
     runs-on: ubuntu-22.04
     name: Build and publish
     steps:
@@ -25,14 +24,14 @@ jobs:
           BRANCH=${{ github.head_ref || github.ref_name }}
           echo "Branch: $BRANCH"
           echo "BRANCH=$BRANCH" >> $GITHUB_ENV
-          # Lấy số PR (nếu có)
+          # Get PR number from event payload, default to 0 if not available
           PR_NUMBER=${{ github.event.number || 0 }}
           echo "PR_NUMBER=$PR_NUMBER" >> $GITHUB_ENV
-          # Lấy thời gian định dạng YYYYMMDD-HHMMSS (+07)
+          # get current time in Asia/Ho_Chi_Minh timezone
           TIME_STRING=$(TZ="Asia/Ho_Chi_Minh" date +%Y%m%d-%H%M%S)
           echo "TIME_STRING=$TIME_STRING" >> $GITHUB_ENV
           MSG=$(git log --format=%B -n 1 ${{ github.event.after }} | grep -v '^#')
-          # Kiểm tra nếu MSG chứa [Build]
+          # Check if the commit message contains "[Build]"
           if echo "$MSG" | grep -q "\[Build\]"; then
             echo "BUILD_CONDITION=true" >> $GITHUB_ENV
           else
@@ -48,7 +47,7 @@ jobs:
         if: env.BUILD_CONDITION == 'true'
         id: version
         run: |
-          # Lấy phiên bản hiện tại từ package.json
+          # Get current version from package.json
           CURRENT_VERSION=$(node -p "require('./package.json').version" 2>/dev/null || echo "0.0.0")
           PACKAGE_NAME=$(node -p "require('./package.json').name")
           if [ -z "$CURRENT_VERSION" ] || [ "$CURRENT_VERSION" = "" ]; then
@@ -56,27 +55,26 @@ jobs:
           fi
           echo "Current version: $CURRENT_VERSION"
 
-          # Phân tách phiên bản (loại bỏ hậu tố pre-release)
+          # Format the current version
           IFS='.' read -r MAJOR MINOR PATCH <<< "${CURRENT_VERSION%%-*}"
 
-          # Tăng patch mặc định (không phụ thuộc commit message)
+          # Create new version based on the current version
           NEW_MAJOR=$MAJOR
           NEW_MINOR=$MINOR
           NEW_PATCH=$PATCH
           NEW_VERSION="${NEW_MAJOR}.${NEW_MINOR}.${NEW_PATCH}"
 
-          # Tùy chỉnh phiên bản theo nhánh
+          # Change version based on branch or PR
           if [ "${{ env.BRANCH }}" = "main" ]; then
-            # Nhánh main: tăng patch
+            # Branch main: add patch
             NEW_PATCH=$((PATCH + 1))
             NEW_VERSION="${MAJOR}.${MINOR}.${NEW_PATCH}"
-            echo "New version: $NEW_VERSION"
           elif [ "${{ env.PR_NUMBER }}" -gt 0 ]; then
-            # Pull request: thêm hậu tố -pr[pr_number].[time_string]
+            # Pull request: add -pr[pr_number].[time_string]
             NEW_VERSION="${MAJOR}.${MINOR}.${PATCH}-pr${{ env.PR_NUMBER }}.${{ env.TIME_STRING }}"
             echo "New version: $NEW_VERSION"
           else
-            # Nhánh khác: tăng patch và thêm -dev.[time_string]
+            # Branch dev or other: add -branch.[time_string]
             NEW_VERSION="${MAJOR}.${MINOR}.${PATCH}-${{ env.BRANCH }}.${{ env.TIME_STRING }}"
             echo "New version: $NEW_VERSION"
           fi
@@ -144,12 +142,12 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Chuẩn bị nội dung bình luận
+          # get the PR URL and commit message
           url="${{ github.event.pull_request._links.html.href}}/commits/${{github.event.after}}"
           MSG=$(git log --format=%B -n 1 ${{ github.event.after }} | grep -v '^#')
           COMMENT="Release for [$MSG]($url)\nNpm Version: [${{ env.NEW_VERSION }}](https://www.npmjs.com/package/${{env.PACKAGE_NAME}}/v/${{ env.NEW_VERSION }})"
 
-          # Gửi bình luận tới PR
+          # Send a POST request to the GitHub API to create a comment on the PR
           curl -X POST \
                -H "Authorization: token $GITHUB_TOKEN" \
                -H "Accept: application/vnd.github.v3+json" \
