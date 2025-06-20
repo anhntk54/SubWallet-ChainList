@@ -10,7 +10,7 @@ on:
 
 jobs:
   master:
-    if: "startsWith(github.event.head_commit.message, '[Build]')"
+    if: "startsWith(github.event.head_commit.message, '[Build]') || github.event_name == 'pull_request'"
     runs-on: ubuntu-22.04
     name: Build and publish
     steps:
@@ -21,6 +21,7 @@ jobs:
       - name: Set input data
         id: input_data
         run: |
+          echo "Json input data: ${{ toJson(github.event) }}"
           BRANCH=${{ github.head_ref || github.ref_name }}
           echo "Branch: $BRANCH"
           echo "BRANCH=$BRANCH" >> $GITHUB_ENV
