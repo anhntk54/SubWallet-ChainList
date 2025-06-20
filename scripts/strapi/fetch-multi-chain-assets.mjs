@@ -57,7 +57,7 @@ const main = async () => {
           originChainAsset: mAsset.originChainAsset,
           name: mAsset.name,
           symbol: mAsset.symbol,
-          priceId: mAsset.priceId,
+          priceId: mAsset.priceId || 0,
           hasValue: mAsset.hasValue,
           icon: iconURL,
         }
