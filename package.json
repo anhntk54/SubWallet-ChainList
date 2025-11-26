@@ -57,7 +57,8 @@
     "test:one": "NODE_OPTIONS=--experimental-vm-modules polkadot-dev-run-test --detectOpenHandles --forceExit"
   },
   "dependencies": {
-    "eventemitter3": "^5.0.1"
+    "eventemitter3": "^5.0.1",
+    "json5": "^1.0.2"
   },
   "devDependencies": {
     "@babel/cli": "^7.23.0",
