@@ -1,7 +1,7 @@
 name: "CodeQL Analysis"
 on:
   push:
-    branches: [ "main", "master" ] # Chạy khi có code được đẩy lên nhánh chính
+    branches: [ "main", "master" ] # Chạy khi có acode được đẩy lên nhánh chính
   pull_request:
     branches: [ "main", "master" ] # Chạy khi tạo hoặc cập nhật Pull Request
   schedule:
