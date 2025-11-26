@@ -691,7 +691,7 @@ function getReferences (config) {
           .references
           .map(({ path }) =>
             path
-              .replace('../', '')
+              .replace(/..\//g, '')
               .replace('/tsconfig.build.json', '')
           ),
         true
