@@ -65,6 +65,7 @@
     "@babel/core": "^7.23.0",
     "@babel/register": "^7.22.15",
     "@babel/runtime": "^7.23.1",
+    "@babel/traverse": "^7.28.5",
     "@json2csv/plainjs": "^7.0.3",
     "@polkadot/dev": "^0.67.167",
     "@types/jest": "^29.5.5",
