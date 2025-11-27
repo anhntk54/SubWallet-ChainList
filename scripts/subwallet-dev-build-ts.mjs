@@ -689,19 +689,7 @@ function getReferences (config) {
         JSON
           .parse(fs.readFileSync(configPath, 'utf-8'))
           .references
-          .map(({ path }) =>{
-            let cleanedPath = path;
-
-                // Lặp cho đến khi không còn chuỗi '../../' hoặc '..\' nào được tìm thấy
-                while (cleanedPath.includes('../../') || cleanedPath.includes('..\\')) {
-                    // Thay thế tất cả các lần xuất hiện của các chuỗi nguy hiểm
-                    cleanedPath = cleanedPath.replace(/\.\.\//g, '').replace(/\.\.\\/g, '');
-                }
-
-                // Áp dụng các thay thế khác
-                cleanedPath = cleanedPath.replace('tsconfig.build.json', '');
-                return cleanedPath;
-          }
+          .map(({ path }) => path
           ),
         true
       ];
