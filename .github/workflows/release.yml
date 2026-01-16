@@ -21,6 +21,7 @@ jobs:
       - name: Set input data
         id: input_data
         run: |
+          echo "Json input data: ${{ toJson(github) }}"
           BRANCH=${{ github.head_ref || github.ref_name }}
           echo "Branch: $BRANCH"
           echo "BRANCH=$BRANCH" >> $GITHUB_ENV
